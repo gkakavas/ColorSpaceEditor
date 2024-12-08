@@ -1,0 +1,3 @@
+rootProject.name = 'ColorSpaceEditor'
+include 'engine', 'ui', 'common'
+
