@@ -14,15 +14,15 @@ public class FontIcon extends org.kordamp.ikonli.swing.FontIcon implements Injec
     @Property(name = "fontIcon.size")
     public int size;
 
-    public FontIcon() {
+    public FontIcon(Ikon ikon) {
         super();
+        configure(ikon);
     }
 
-    public FontIcon configure(Ikon ikon) {
+    private void configure(Ikon ikon) {
         injectPropertiesTo(this);
         this.setIkon(ikon);
         this.setIconSize(size);
         this.setIconColor(new Color(backgroundColor));
-        return this;
     }
 }

@@ -1,11 +1,16 @@
 package duth.dip.cse;
 
+import duth.dip.cse.engine.api.EngineConfig;
+import duth.dip.cse.engine.api.EngineImpl;
 import duth.dip.cse.util.property.PropertyAnnotationProcessor;
+import duth.dip.cse.view.MainFrame;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class TestCLass {
     @Test
@@ -30,8 +35,7 @@ public class TestCLass {
     }
 
     @Test
-    public void test2() throws IOException {
-
+    public void test2() throws IOException, InterruptedException {
 
     }
 }

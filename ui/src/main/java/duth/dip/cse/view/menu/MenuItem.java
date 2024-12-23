@@ -1,6 +1,5 @@
 package duth.dip.cse.view.menu;
 
-import duth.dip.cse.action.MenuActionListener;
 import duth.dip.cse.view.common.FontIcon;
 import duth.dip.cse.view.common.Injectable;
 import duth.dip.cse.util.property.Property;
@@ -21,12 +20,13 @@ public class MenuItem extends JButton implements Injectable {
     @Property(name = "menuItem.hover.enabled")
     private boolean hoverEnabled;
 
-    public MenuItem() {
+    public MenuItem(FontIcon icon, String tooltip) {
         super();
+        injectPropertiesTo(this);
+        configure(icon,tooltip);
     }
 
-    public MenuItem configure(FontIcon icon, String tooltip) {
-        injectPropertiesTo(this);
+    private void configure(FontIcon icon, String tooltip) {
         this.setIcon(icon);
         this.setBackground(new Color(backgroundColor));
         this.setToolTipText(tooltip);
@@ -34,7 +34,6 @@ public class MenuItem extends JButton implements Injectable {
         this.setBorderPainted(false);
         if (hoverEnabled)
             enableHover(new Color(hoverColor),this.getBackground());
-        return this;
     }
 
     private void enableHover(Color hoverColor, Color normalColor) {
@@ -50,10 +49,6 @@ public class MenuItem extends JButton implements Injectable {
                 toolbarItem.setBackground(normalColor);
             }
         });
-    }
-
-    public void addListener(Runnable runnable) {
-        this.addActionListener(new MenuActionListener(runnable));
     }
 
 }

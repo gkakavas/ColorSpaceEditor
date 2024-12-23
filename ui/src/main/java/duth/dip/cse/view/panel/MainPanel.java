@@ -17,7 +17,7 @@ public class MainPanel extends JPanel implements Injectable {
     private final Viewer viewer;
 
     public MainPanel() {
-        super(/*new GridBagLayout()*/new BorderLayout());
+        super(new BorderLayout());
         sidebarEditor = new SidebarEditor();
         viewer = new Viewer();
         configure();
@@ -39,20 +39,6 @@ public class MainPanel extends JPanel implements Injectable {
 
         this.add(viewer, BorderLayout.CENTER);
         this.add(sidebarEditor, BorderLayout.WEST);
-
-        /*var gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.fill = GridBagConstraints.BOTH;
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weighty = 1;
-        gbc.weightx = 0.25;
-        this.add(sidebarEditor, gbc);
-
-        gbc.gridx = 1;
-        gbc.weightx = 0.75;
-        this.add(viewer, gbc);*/
         return this;
     }
 
