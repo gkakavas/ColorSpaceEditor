@@ -6,7 +6,6 @@ import duth.dip.cse.utils.ImgConverter;
 import nu.pattern.OpenCV;
 import org.apache.commons.imaging.Imaging;
 import org.opencv.core.Mat;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
 
@@ -14,7 +13,6 @@ import javax.swing.ImageIcon;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +23,6 @@ public class EngineImpl implements Engine{
     private String matrixFilePath;
     private ImageFileType fileType;
     private VideoCapture videoCapture;
-
 
 
     public EngineImpl(EngineConfig config) throws IOException {

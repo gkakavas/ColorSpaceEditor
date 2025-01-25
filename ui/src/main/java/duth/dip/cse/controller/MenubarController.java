@@ -79,8 +79,8 @@ public class MenubarController {
                 if(!selectedfile.exists()){
                     engineApiClient.saveImageOnDeclaredFile(selectedfile.getAbsolutePath());
                     try {
-                        engineApiClient.loadImage(viewer.getImage(),selectedfile);
-                        viewer.updateImage();
+                        var image = engineApiClient.loadImage(viewer.getImage(),selectedfile);
+                        viewer.updateImage(image);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

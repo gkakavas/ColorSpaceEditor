@@ -1,19 +1,166 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id 'java'
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = 'duth.dip.cse'
-version = '1.0-SNAPSHOT'
+version = '1.0'
+
+tasks.named('jar') {
+    enabled = false
+}
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+ext {
+    jrePath = file(layout.buildDirectory.dir("jdk").get())
+    artifactsDir = file(layout.buildDirectory.dir("artifacts").get())
+    dependenciesDir = file(layout.buildDirectory.dir("dependencies").get())
+    outputDir = file(layout.buildDirectory.dir("package").get())
+
+    linuxJREUrl = "https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz"
+    windowsJREUrl = "https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_windows-x64_bin.zip"
+
+    demoDir = file("${project.rootDir}/demo")
+    iconsDir = file("${project.rootDir}/icons")
+    batchScript = file("${project.rootDir}/install.bat")
+    bashScript = file("${project.rootDir}/install.sh")
 }
 
-test {
-    useJUnitPlatform()
+tasks.register("createDirsIfNotExist") {
+    doLast {
+        def dirsList = [jrePath, artifactsDir, dependenciesDir, outputDir]
+        dirsList.forEach { directory ->
+            if (!directory.exists()) {
+                directory.mkdirs()
+                println("Directory: " + directory + " was created!")
+            }
+        }
+    }
 }
+
+tasks.register("downloadAndCacheJre") {
+    mustRunAfter createDirsIfNotExist
+    dependsOn createDirsIfNotExist
+
+    // Define the path for the cached JRE
+    def gradleCacheDir = new File("${gradle.gradleUserHomeDir}/caches/jdk-cache")
+    def cachedJreFile = new File(gradleCacheDir, "openjdk-21.tar.gz")
+
+    doLast {
+        // Check if the JRE is already in the cache
+        if (!cachedJreFile.exists()) {
+            println "JRE not found in Gradle cache. Downloading OpenJDK 21..."
+
+            // Create the cache directory if it doesn't exist
+            gradleCacheDir.mkdirs()
+
+            //outputs.upToDateWhen()
+            // Download the JRE from the URL
+            exec {
+                commandLine 'curl', '-L', '-o', cachedJreFile, linuxJREUrl
+            }
+
+            println "Downloaded OpenJDK 21 to Gradle cache: ${cachedJreFile}"
+        } else {
+            copy{
+                from(cachedJreFile)
+                into(jrePath)
+            }
+        }
+    }
+}
+
+tasks.register('collectArtifacts', Copy) {
+    dependsOn createDirsIfNotExist
+    dependsOn(subprojects.collect { subproject -> subproject.tasks.named("build") })
+
+    description = "Collects all subproject artifacts into a single directory"
+    group = "distribution"
+    subprojects.each { subproject ->
+
+        def subprojectArtifactsDir = subproject.layout.buildDirectory.dir("libs").get().asFile
+
+        from(subprojectArtifactsDir) {
+            include "**/*.jar"
+        }
+    }
+    into(artifactsDir)
+}
+
+tasks.register('collectDependencies'){
+    dependsOn createDirsIfNotExist
+    doLast {
+        description = "Collects all subprojects' dependencies into a single directory"
+        group = "distribution"
+        subprojects.each {subproject ->
+            def runtimeClasspath = subproject.configurations.getByName('runtimeClasspath');
+            runtimeClasspath.each {file ->
+                if(!dependenciesDir.listFiles().contains(file.name)){
+                    copy {
+                        from(file)
+                        into(dependenciesDir)
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.register('package'){
+    dependsOn downloadAndCacheJre
+    dependsOn collectArtifacts
+    dependsOn collectDependencies
+    doLast{
+        print(jrePath.listFiles())
+        print(artifactsDir.listFiles())
+        print(dependenciesDir.listFiles())
+    }
+}
+
+tasks.register('packageWindows', Zip) {
+    dependsOn collectArtifacts
+
+    from(artifactsDir) {
+        into("libs/")
+    }
+
+    from(jrePath) {
+        into("java/")
+    }
+
+    from(batchScript){
+        into("bin/")
+    }
+
+    from(iconsDir){
+        into("bin/")
+    }
+
+    from(demoDir) {
+        into("demo/")
+    }
+
+    archiveBaseName.set(project.name)
+    archiveVersion.set(version)
+    destinationDirectory.set(outputDir)
+}
+
+
+tasks.register('packageLinux', Tar) {
+    archiveBaseName.set(project.name)
+    archiveVersion.set(project.version.toString())
+    destinationDirectory.set(outputDir)
+}
+
+build.dependsOn("package")
+
+
+
+
+
+
