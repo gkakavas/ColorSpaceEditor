@@ -1,0 +1,53 @@
+package duth.dip.cse.ui.service;
+
+import duth.dip.cse.engine.domain.ColorModel;
+import duth.dip.cse.engine.api.Engine;
+import duth.dip.cse.engine.domain.ImageDataDTO;
+import duth.dip.cse.engine.exception.UnsupportedFileFormatException;
+
+import javax.swing.ImageIcon;
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Map;
+import java.util.Optional;
+
+public class EngineApiClient {
+
+    private final Engine engine;
+
+    public EngineApiClient(Engine engine){
+        this.engine = engine;
+        engine.start();
+    }
+
+    public void startCapturing(){
+        engine.startVideoCapture();
+    }
+
+    public void stopVideoCapturing(){
+        engine.stopVideoCapture();
+    }
+
+    public ImageDataDTO loadImage(File file) {
+        return engine.loadImage(file);
+    }
+
+    public void capturePhoto(ImageIcon icon, boolean isCaptured){
+        engine.captureImage(icon,isCaptured);
+    }
+
+    public void clearImage() {
+        engine.clearImage();
+    }
+
+    public String saveImage(String pathToSave) throws UnsupportedFileFormatException { return engine.saveImage(pathToSave); }
+
+    public String createFilePath(){
+        return engine.createFilePath();
+    }
+
+    public Optional<ImageDataDTO> convertColorSpace(ColorModel colorModel){ return engine.convertColorSpace(colorModel); }
+
+    public BufferedImage applyColorFactor(int[] values){ return engine.applyColorFactor(values); }
+}

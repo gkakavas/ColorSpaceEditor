@@ -14,13 +14,5 @@ dependencies {
     implementation 'org.kordamp.ikonli:ikonli-swing:12.3.1'
     implementation 'org.kordamp.ikonli:ikonli-material-pack:12.3.1'
     implementation 'com.formdev:flatlaf:3.2'
-    implementation project(':common')
     implementation project(':engine')
-    testImplementation project(':common')
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-test {
-    useJUnitPlatform()
 }
