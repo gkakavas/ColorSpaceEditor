@@ -42,7 +42,7 @@ Use an IDE like IntelliJ IDEA, Eclipse, or any text editor of your choice.
 
 ##### The application enables the user to:
 
-- **Load** any image file and convert it to a supported color space using the color model chooser.
+****- **Load** any image file and convert it to a supported color space using the color model chooser.
 
 - **Save** the modified image by pressing the save button. A tag of the color space is added to the file name so that the application can read the file again in the converted color model.
 
@@ -53,6 +53,8 @@ Use an IDE like IntelliJ IDEA, Eclipse, or any text editor of your choice.
 - **Adjust** the intensity of an RGB image by modifying color space channels using sliders.
 
 - **View** all changes in real time using the built-in image previewer, which displays the loaded image in RGB format.
+
+- **Revert** previous modification into color model components.****
 
 ##### Supported File Types
 
