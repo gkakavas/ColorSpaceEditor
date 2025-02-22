@@ -24,6 +24,7 @@ public class MenubarController {
     private final CloseCaptureImageAction closeCaptureImageAction;
     private final ClearFileAction clearFileAction;
     private final SaveFileAction saveFileAction;
+    private final RevertChangesAction revertChangesAction;
 
     public MenubarController(Menubar menubar, Image image, SidebarController sidebarController, EngineApiClient engineApiClient) {
 
@@ -38,13 +39,15 @@ public class MenubarController {
         this.closeCaptureImageAction = new CloseCaptureImageAction(this);
         this.clearFileAction = new ClearFileAction(this);
         this.saveFileAction = new SaveFileAction(this);
+        this.revertChangesAction = new RevertChangesAction(this,sidebarController);
 
         menubar.getOpenItem().addActionListener(loadImageAction);
         menubar.getCaptureItem().addActionListener(captureImageAction);
         menubar.getCaptureDialog().getCaptureBtn().addActionListener(launchCaptureDialogAction);
         menubar.getCaptureDialog().getCloseBtn().addActionListener(closeCaptureImageAction);
         menubar.getClearItem().addActionListener(clearFileAction);
-        menubar.getSaveItem().addActionListener(saveFileAction);
+        menubar.getExportItem().addActionListener(saveFileAction);
+        menubar.getRevertItem().addActionListener(revertChangesAction);
 
         addMenubarOnCloseListener();
 
@@ -61,7 +64,7 @@ public class MenubarController {
     }
 
     public int showFileChooser(){
-        menubar.getFileChooser().setSelectedFile(new File(SystemProperties.HOME_DIR));
+        menubar.getFileChooser().setCurrentDirectory(new File(SystemProperties.HOME_DIR));
         return menubar.getFileChooser().showOpenDialog(null);
     }
 

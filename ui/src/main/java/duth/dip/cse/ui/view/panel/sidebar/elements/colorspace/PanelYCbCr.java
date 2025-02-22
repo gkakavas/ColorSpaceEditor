@@ -5,6 +5,7 @@ import duth.dip.cse.ui.view.panel.sidebar.elements.Slider;
 import duth.dip.cse.ui.view.panel.sidebar.elements.SliderPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.AbstractMap;
 import java.util.List;
 
@@ -17,9 +18,10 @@ public class PanelYCbCr extends ColorSpacePanel{
 
 
     public PanelYCbCr(int yInitial,int cbInitial,int crInitial){
-        luminance = new SliderPanel(SwingConstants.VERTICAL,0,255,yInitial,"Y");
-        chrominanceRed = new SliderPanel(SwingConstants.VERTICAL,0,255,crInitial,"Cr");
-        chrominanceBlue = new SliderPanel(SwingConstants.VERTICAL,0,255,cbInitial,"Cb");
+        this.setBackground(Color.BLACK);
+        luminance = new SliderPanel(SwingConstants.VERTICAL,-100,100,yInitial,"Y");
+        chrominanceRed = new SliderPanel(SwingConstants.VERTICAL,-100,100,crInitial,"Cr");
+        chrominanceBlue = new SliderPanel(SwingConstants.VERTICAL,-100,100,cbInitial,"Cb");
         configure();
     }
 
@@ -33,18 +35,13 @@ public class PanelYCbCr extends ColorSpacePanel{
     public void setChrominanceRed(int chrominanceRed){this.chrominanceRed.setValue(chrominanceRed);}
     public void setChrominanceBlue(int chrominanceBlue){this.chrominanceBlue.setValue(chrominanceBlue);}
 
-    public void set(int luminance,int chrominanceBlue,int chrominanceRed){
-        setLuminance(luminance);
-        setChrominanceRed(chrominanceRed);
-        setChrominanceBlue(chrominanceBlue);
-    }
-
     @Override
     public int[] getColorSpaceData() {
         return new int[]{
                         luminance.getValue(),
                         chrominanceBlue.getValue(),
-                        chrominanceRed.getValue()
+                        chrominanceRed.getValue(),
+                        -1
                 };
     }
 
@@ -55,5 +52,12 @@ public class PanelYCbCr extends ColorSpacePanel{
             chrominanceBlue.getSlider(),
             chrominanceRed.getSlider()
         };
+    }
+
+    @Override
+    public void set(int[] colorSpaceData) {
+        setLuminance(colorSpaceData[0]);
+        setChrominanceBlue(colorSpaceData[1]);
+        setChrominanceRed(colorSpaceData[2]);
     }
 }

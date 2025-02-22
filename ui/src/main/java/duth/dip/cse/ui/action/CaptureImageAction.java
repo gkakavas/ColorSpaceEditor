@@ -1,5 +1,7 @@
 package duth.dip.cse.ui.action;
 
+import duth.dip.cse.engine.domain.ImageDataDTO;
+import duth.dip.cse.engine.domain.IntensityImageDTO;
 import duth.dip.cse.ui.controller.MenubarController;
 import duth.dip.cse.ui.view.menu.CaptureDialog;
 
@@ -7,6 +9,7 @@ import javax.swing.AbstractAction;
 import javax.swing.SwingWorker;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CaptureImageAction extends AbstractAction {
@@ -27,7 +30,7 @@ public class CaptureImageAction extends AbstractAction {
         captureTask.execute();
     }
 
-    private class CaptureImageTask extends SwingWorker<Void,Void> {
+    private class CaptureImageTask extends SwingWorker<ImageDataDTO,Void> {
 
         private final AtomicBoolean isCaptured;
         private final CaptureDialog captureDialog;
@@ -38,19 +41,31 @@ public class CaptureImageAction extends AbstractAction {
         }
 
         @Override
-        public Void doInBackground() {
+        public ImageDataDTO doInBackground() {
             while (!isCaptured.get()){
                 menubarController.engineApi().capturePhoto(captureDialog.getImage(),false);
                 publish((Void) null);
             }
-            menubarController.engineApi().capturePhoto(captureDialog.getImage(),true);
+            var result = menubarController.engineApi().capturePhoto(captureDialog.getImage(),true);
             menubarController.engineApi().stopVideoCapturing();
-            return null;
+            return result;
         }
 
         @Override
         public void process(List<Void> chunks) {
             captureDialog.refresh();
+        }
+
+        @Override
+        public void done() {
+            try {
+                var image = get();
+                menubarController.getImage().updateImage(image.bufferedImage());
+                menubarController.getImage().updateColorModel(image.colorModel());
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
     }

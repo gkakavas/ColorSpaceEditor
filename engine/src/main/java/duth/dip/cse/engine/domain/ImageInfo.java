@@ -10,6 +10,7 @@ public class ImageInfo {
     private ColorModel colorModel;
     private Mat matImageMatrix;
     private String path;
+    private int[] intensityValues;
 
     public ImageInfo() {}
     private ImageInfo(Builder builder){
@@ -17,6 +18,7 @@ public class ImageInfo {
         colorModel = builder.colorModel;
         matImageMatrix = builder.matImageMatrix;
         path = builder.filePath;
+        intensityValues = builder.intensityValues;
     }
 
     public static class Builder{
@@ -25,6 +27,7 @@ public class ImageInfo {
         private ColorModel colorModel;
         private Mat matImageMatrix;
         private String filePath;
+        private int[] intensityValues;
 
         public Builder withFileType(ImageFileType fileType){
             this.fileType = fileType;
@@ -43,6 +46,22 @@ public class ImageInfo {
 
         public Builder withFilePath(String filePath){
             this.filePath = filePath;
+            return this;
+        }
+
+        public Builder withIntensityValues(int[] intensityValues){
+            this.intensityValues = new int[4];
+            System.arraycopy(intensityValues, 0, this.intensityValues, 0, intensityValues.length);
+            switch (intensityValues.length){
+                case 1:
+                    this.intensityValues[1] = -1;
+                    this.intensityValues[2] = -1;
+                    this.intensityValues[3] = -1;
+                    break;
+                case 3:
+                    this.intensityValues[3] = -1;
+                    break;
+            }
             return this;
         }
 
@@ -74,6 +93,18 @@ public class ImageInfo {
 
     public void setMatImageMatrix(Mat matImageMatrix) {
         this.matImageMatrix = matImageMatrix;
+    }
+
+    public int[] getIntensityValues() {
+        return intensityValues;
+    }
+
+    public void setIntensityValues(int[] intensityValues) {
+        this.intensityValues = intensityValues;
+    }
+
+    public void releaseMat(){
+        matImageMatrix.release();
     }
 
 }

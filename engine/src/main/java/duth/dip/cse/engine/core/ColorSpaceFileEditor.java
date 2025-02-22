@@ -4,6 +4,8 @@ import duth.dip.cse.engine.domain.ColorModel;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class ColorSpaceFileEditor {
@@ -31,5 +33,17 @@ public class ColorSpaceFileEditor {
                     .concat(extensionPart);
         }
         throw new RuntimeException("Failed to put color space stamp");
+    }
+
+
+    public static String createChannelPath(String channelName, String filePath) {
+        if(filePath.contains(FILE_EXT_SPLITERATOR)){
+            var pathPart = filePath.substring(0,filePath.lastIndexOf(FILE_EXT_SPLITERATOR));
+            var extensionPart = filePath.substring(filePath.lastIndexOf(FILE_EXT_SPLITERATOR));
+            return pathPart.concat(COLOR_MODEL_SPLITERATOR)
+                    .concat(channelName)
+                    .concat(extensionPart);
+        }
+        throw new RuntimeException("Failed to put channel stamp");
     }
 }

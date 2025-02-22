@@ -23,16 +23,24 @@ public class PanelGrayscale extends ColorSpacePanel{
         this.add(gray);
     }
 
-    public void set(int gray){this.gray.setValue(gray);}
-
     @Override
     public int[] getColorSpaceData() {
-        return new int[]{gray.getValue()};
+        return new int[]{
+                gray.getValue(),
+                -1,
+                -1,
+                -1
+        };
     }
 
     @Override
     public Slider[] getSliders() {
         return new Slider[]{gray.getSlider()};
+    }
+
+    @Override
+    public void set(int[] colorSpaceData) {
+        gray.setValue(colorSpaceData[0]);
     }
 
 }

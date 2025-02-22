@@ -3,13 +3,12 @@ package duth.dip.cse.ui.service;
 import duth.dip.cse.engine.domain.ColorModel;
 import duth.dip.cse.engine.api.Engine;
 import duth.dip.cse.engine.domain.ImageDataDTO;
+import duth.dip.cse.engine.domain.IntensityImageDTO;
 import duth.dip.cse.engine.exception.UnsupportedFileFormatException;
 
 import javax.swing.ImageIcon;
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Map;
 import java.util.Optional;
 
 public class EngineApiClient {
@@ -33,15 +32,15 @@ public class EngineApiClient {
         return engine.loadImage(file);
     }
 
-    public void capturePhoto(ImageIcon icon, boolean isCaptured){
-        engine.captureImage(icon,isCaptured);
+    public ImageDataDTO capturePhoto(ImageIcon icon, boolean isCaptured){
+        return engine.captureImage(icon,isCaptured);
     }
 
     public void clearImage() {
         engine.clearImage();
     }
 
-    public String saveImage(String pathToSave) throws UnsupportedFileFormatException { return engine.saveImage(pathToSave); }
+    public void saveImage(String pathToSave) throws UnsupportedFileFormatException { engine.exportFiles(pathToSave); }
 
     public String createFilePath(){
         return engine.createFilePath();
@@ -49,5 +48,9 @@ public class EngineApiClient {
 
     public Optional<ImageDataDTO> convertColorSpace(ColorModel colorModel){ return engine.convertColorSpace(colorModel); }
 
-    public BufferedImage applyColorFactor(int[] values){ return engine.applyColorFactor(values); }
+    public IntensityImageDTO applyColorFactor(int[] values){ return engine.applyColorFactor(values); }
+
+    public IntensityImageDTO revertChanges(){
+        return engine.revertChanges();
+    }
 }

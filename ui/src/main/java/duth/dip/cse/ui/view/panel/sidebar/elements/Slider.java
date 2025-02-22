@@ -27,11 +27,7 @@ public class Slider extends JSlider implements Injectable {
         configure();
         addChangeListener(changeEvent ->{
             var value = ((JSlider) changeEvent.getSource()).getValue();
-            String result;
-            if(value < 10) result = "  " + value;
-            else if (value<99) result = " " + value;
-            else result = String.valueOf(value);
-            sLabel.setText(result);
+            sLabel.setText(String.valueOf(value));
         }
         );
     }

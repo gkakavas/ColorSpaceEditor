@@ -53,6 +53,7 @@ public class LoadImageAction extends AbstractAction {
                 menubarController.setSelectedItem(imageData.colorModel());
                 menubarController.getImage().updateImage(imageData.bufferedImage());
                 menubarController.getImage().updateColorModel(imageData.colorModel());
+                menubarController.updateColorSpacePanel();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }

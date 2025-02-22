@@ -41,18 +41,13 @@ public class PanelHSV extends ColorSpacePanel{
         this.value.setValue(value);
     }
 
-    public void set(int hue, int saturation, int value) {
-        setHue(hue);
-        setSaturation(saturation);
-        setValue(value);
-    }
-
     @Override
     public int[] getColorSpaceData() {
         return new int[]{
                 hue.getValue(),
                 saturation.getValue(),
-                value.getValue()
+                value.getValue(),
+                -1
         };
     }
 
@@ -64,4 +59,13 @@ public class PanelHSV extends ColorSpacePanel{
                 value.getSlider()
         };
     }
+
+    @Override
+    public void set(int[] colorSpaceData) {
+        setHue(colorSpaceData[0]);
+        setSaturation(colorSpaceData[1]);
+        setValue(colorSpaceData[2]);
+    }
+
+
 }

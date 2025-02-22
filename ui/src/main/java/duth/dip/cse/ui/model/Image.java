@@ -19,9 +19,10 @@ public class Image {
         this.colorModel = colorModel;
     }
 
-    public void attachListener(ImageListener imageChangeListener){
+    public void attachImageListener(ImageListener imageChangeListener){
         this.imageChangeListener = imageChangeListener;
     }
+
 
     public void updateImage(BufferedImage image){
         this.image = image;

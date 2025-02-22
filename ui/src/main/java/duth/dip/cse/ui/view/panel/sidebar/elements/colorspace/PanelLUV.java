@@ -1,13 +1,10 @@
 package duth.dip.cse.ui.view.panel.sidebar.elements.colorspace;
 
-import duth.dip.cse.engine.domain.ColorModel;
 import duth.dip.cse.ui.view.panel.sidebar.elements.Slider;
 import duth.dip.cse.ui.view.panel.sidebar.elements.SliderPanel;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
-import java.util.AbstractMap;
-import java.util.List;
 
 public class PanelLUV extends ColorSpacePanel{
 
@@ -42,18 +39,13 @@ public class PanelLUV extends ColorSpacePanel{
         this.redGreenChromaticity.setValue(redGreenChromaticity);
     }
 
-    public void set(int lightness, int blueYellowChromaticity, int redGreenChromaticity) {
-        setLightness(lightness);
-        setBlueYellowChromaticity(blueYellowChromaticity);
-        setRedGreenChromaticity(redGreenChromaticity);
-    }
-
     @Override
     public int[] getColorSpaceData() {
         return new int[]{
                         lightness.getValue(),
                         blueYellowChromaticity.getValue(),
-                        redGreenChromaticity.getValue()
+                        redGreenChromaticity.getValue(),
+                        -1,
                 };
     }
 
@@ -64,6 +56,13 @@ public class PanelLUV extends ColorSpacePanel{
                 blueYellowChromaticity.getSlider(),
                 redGreenChromaticity.getSlider()
         };
+    }
+
+    @Override
+    public void set(int[] colorSpaceData) {
+        setLightness(colorSpaceData[0]);
+        setBlueYellowChromaticity(colorSpaceData[1]);
+        setRedGreenChromaticity(colorSpaceData[2]);
     }
 
 }

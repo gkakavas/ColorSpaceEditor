@@ -32,9 +32,6 @@ public class SidebarController {
         configure();
     }
 
-
-
-
     private void configure(){
         sidebarEditor.getCombobox().addActionListener(selectColorModelAction);
     }
@@ -71,4 +68,8 @@ public class SidebarController {
                                 .forEach(Slider::reset));
     }
 
+    public void setSliderValues(int[] sliderValues){
+        image.updateChannelsValues(sliderValues[0],sliderValues[1],sliderValues[2],sliderValues[3]);
+        sidebarEditor.getActiveSlidersPanel().set(sliderValues);
+    }
 }

@@ -129,18 +129,23 @@ public class SidebarEditor extends JPanel implements Injectable {
 
     private Map<ColorModel,ColorSpacePanel> initSliderPanels(){
         return Map.of(
-                ColorModel.GRAYSCALE, new PanelGrayscale(100),
-                ColorModel.RGBA, new PanelRGBA(100,100,100,100),
-                ColorModel.sRGB, new PanelRGB(100,100,100),
-                ColorModel.HSV, new PanelHSV(100,100,100),
-                ColorModel.LAB, new PanelLAB(100,100,100),
-                ColorModel.YCrCb, new PanelYCbCr(100,100,100),
-                ColorModel.LUV, new PanelLUV(100,100,100)
+                ColorModel.GRAYSCALE, new PanelGrayscale(0),
+                ColorModel.RGBA, new PanelRGBA(0,0,0,0),
+                ColorModel.sRGB, new PanelRGB(0,0,0),
+                ColorModel.HSV, new PanelHSV(0,0,0),
+                ColorModel.LAB, new PanelLAB(0,0,0),
+                ColorModel.YCrCb, new PanelYCbCr(0,0,0),
+                ColorModel.LUV, new PanelLUV(0,0,0)
         );
     }
 
     public Map<ColorModel, ColorSpacePanel> getPanels() {
         return panels;
     }
+
+    public ColorSpacePanel getActiveSlidersPanel(){
+        return slidersPanel;
+    }
+
 }
 

@@ -17,4 +17,6 @@ public abstract class ColorSpacePanel extends JPanel {
     public abstract int[] getColorSpaceData();
 
     public abstract Slider[] getSliders();
+
+    public abstract void set(int[] colorSpaceData);
 }

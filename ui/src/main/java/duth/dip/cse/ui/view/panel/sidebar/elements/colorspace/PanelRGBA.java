@@ -13,7 +13,7 @@ public class PanelRGBA extends PanelRGB{
 
     public PanelRGBA(int rInitial, int gInitial, int bInitial, int aInitial) {
         super(rInitial, gInitial, bInitial);
-        alpha = new SliderPanel(SwingConstants.VERTICAL,0,255,aInitial,"A");
+        alpha = new SliderPanel(SwingConstants.VERTICAL,-100,100,aInitial,"A");
         this.add(alpha);
     }
 
@@ -21,10 +21,6 @@ public class PanelRGBA extends PanelRGB{
         alpha.setValue(value);
     }
 
-    public void set(int red, int green,int blue, int alpha){
-        set(red,green,blue);
-        setAlpha(alpha);
-    }
 
     @Override
     public int[] getColorSpaceData() {
@@ -44,5 +40,13 @@ public class PanelRGBA extends PanelRGB{
                 blue.getSlider(),
                 alpha.getSlider()
         };
+    }
+
+    @Override
+    public void set(int[] colorSpaceData) {
+        setRed(colorSpaceData[0]);
+        setGreen(colorSpaceData[1]);
+        setBlue(colorSpaceData[2]);
+        setAlpha(colorSpaceData[3]);
     }
 }

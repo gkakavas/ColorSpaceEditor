@@ -1,9 +1,16 @@
 package duth.dip.cse.ui.view.panel.sidebar.elements;
 
-import javax.swing.*;
-import java.awt.Component;
+import duth.dip.cse.engine.utils.Property;
+import duth.dip.cse.ui.view.common.Injectable;
 
-public class SliderPanel extends JPanel {
+import javax.swing.*;
+import java.awt.*;
+
+public class SliderPanel extends JPanel implements Injectable {
+
+    @Property(name = "sidebar.colorSpaceProcessor.slider.background.color")
+    private int backgroundColor;
+
 
     private final Slider slider;
     private final JLabel indicator;
@@ -18,12 +25,14 @@ public class SliderPanel extends JPanel {
     }
 
     private void configure(){
+        injectPropertiesTo(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         // Center align all components horizontally
         indicator.setAlignmentX(Component.CENTER_ALIGNMENT);
         slider.setAlignmentX(Component.CENTER_ALIGNMENT);
         valueLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        indicator.setHorizontalAlignment(SwingConstants.CENTER);
+        valueLbl.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Add spacing between components (optional)
         this.add(Box.createVerticalStrut(10)); // Space above the indicator
@@ -34,7 +43,7 @@ public class SliderPanel extends JPanel {
 
         this.add(Box.createVerticalStrut(10));
         this.add(valueLbl);
-
+        this.setBackground(new Color(backgroundColor));
     }
 
     public void setValue(int value){

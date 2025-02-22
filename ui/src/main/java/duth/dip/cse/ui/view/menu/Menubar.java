@@ -26,16 +26,14 @@ public class Menubar extends JToolBar implements Injectable {
     @Property(name="menu.item.save.tooltip")
     private String saveItemTooltip;
 
-    @Property(name="menu.item.undo.tooltip")
-    private String undoItemTooltip;
-
-    @Property(name="menu.item.redo.tooltip")
-    private String redoItemTooltip;
+    @Property(name="menu.item.revert.tooltip")
+    private String revertItemTooltip;
 
     private final MenuItem openItem;
     private final MenuItem captureItem;
     private final MenuItem clearItem;
-    private final MenuItem saveItem;
+    private final MenuItem exportItem;
+    private final MenuItem revertItem;
     private final JFileChooser fileChooser;
     private final CaptureDialog captureDialog;
 
@@ -46,14 +44,14 @@ public class Menubar extends JToolBar implements Injectable {
         var openIcon = new FontIcon(Material.FOLDER_OPEN);
         var captureIcon = new FontIcon(Material.PHOTO_CAMERA);
         var clearIcon = new FontIcon(Material.CLEAR);
-        var saveIcon = new FontIcon(Material.SAVE);
-        var undoIcon = new FontIcon(Material.UNDO);
-        var redoIcon = new FontIcon(Material.REDO);
+        var saveIcon = new FontIcon(Material.PUBLISH);
+        var revertIcon = new FontIcon(Material.REPLAY_CIRCLE_FILLED);
 
         openItem = new MenuItem(openIcon,openItemTooltip);
         captureItem = new MenuItem(captureIcon,captureItemTooltip);
         clearItem = new MenuItem(clearIcon,clearItemTooltip);
-        saveItem = new MenuItem(saveIcon,saveItemTooltip);
+        exportItem = new MenuItem(saveIcon,saveItemTooltip);
+        revertItem = new MenuItem(revertIcon,revertItemTooltip);
 
         fileChooser = new JFileChooser();
         captureDialog = new CaptureDialog();
@@ -67,8 +65,9 @@ public class Menubar extends JToolBar implements Injectable {
         this.setBackground(new Color(backgroundColor));
         this.add(openItem);
         this.add(captureItem);
+        this.add(exportItem);
+        this.add(revertItem);
         this.add(clearItem);
-        this.add(saveItem);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
     }
 
@@ -80,9 +79,11 @@ public class Menubar extends JToolBar implements Injectable {
 
     public MenuItem getClearItem(){return clearItem;}
 
-    public MenuItem getSaveItem() {
-        return saveItem;
+    public MenuItem getExportItem() {
+        return exportItem;
     }
+
+    public MenuItem getRevertItem() { return revertItem; }
 
     public JFileChooser getFileChooser(){
         return fileChooser;

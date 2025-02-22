@@ -1,8 +1,8 @@
 demo/
-logs/
 engine/build/
 ui/build/
 common/build/
 build/
 .idea/compiler.xml
 .gradle/
+engine.log

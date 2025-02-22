@@ -44,7 +44,8 @@ public class PanelLAB extends ColorSpacePanel{
         return new int[]{
                         lightness.getValue(),
                         greenRed.getValue(),
-                        blueYellow.getValue()
+                        blueYellow.getValue(),
+                        -1
                 };
     }
 
@@ -55,5 +56,12 @@ public class PanelLAB extends ColorSpacePanel{
                 greenRed.getSlider(),
                 blueYellow.getSlider()
         };
+    }
+
+    @Override
+    public void set(int[] colorSpaceData) {
+        setLightness(colorSpaceData[0]);
+        setGreenRed(colorSpaceData[1]);
+        setBlueYellow(colorSpaceData[2]);
     }
 }

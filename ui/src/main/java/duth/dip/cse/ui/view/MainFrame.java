@@ -38,7 +38,7 @@ public class MainFrame extends JFrame implements Injectable {
         engineApiClient = new EngineApiClient(Configuration.engine());
         image = new Image(mainPanel.getViewer().getImage(),new int[4], ColorModel.sRGB);
         viewerController = new ViewerController(mainPanel.getViewer(),image);
-        image.attachListener(viewerController);
+        image.attachImageListener(viewerController);
         sidebarController = new SidebarController(mainPanel.getSidebarEditor(),image, engineApiClient);
         new MenubarController(menuBar,image,sidebarController, engineApiClient);
 

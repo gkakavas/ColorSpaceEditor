@@ -46,7 +46,6 @@ public class ImgConverter {
 
     public static Mat convertBgrToColorModel(ColorModel destinationColorModel, Mat matrixToConvert){
 
-        var convertedMatrix = new Mat();
         int converterCode = switch (destinationColorModel) {
             case GRAYSCALE -> Imgproc.COLOR_BGR2GRAY;
             case RGBA -> Imgproc.COLOR_BGR2RGBA;
@@ -54,12 +53,13 @@ public class ImgConverter {
             case LAB -> Imgproc.COLOR_BGR2Lab;
             case YCrCb -> Imgproc.COLOR_BGR2YCrCb;
             case LUV -> Imgproc.COLOR_BGR2Luv;
-            default -> 22198;
+            case sRGB -> 111111;
         };
 
-        if(converterCode == 22198){
-            throw new RuntimeException("Unsupported Color Model");
+        if(converterCode == 111111){
+            return matrixToConvert;
         }
+        var convertedMatrix = new Mat();
         Imgproc.cvtColor(matrixToConvert,convertedMatrix,converterCode);
         return convertedMatrix;
     }

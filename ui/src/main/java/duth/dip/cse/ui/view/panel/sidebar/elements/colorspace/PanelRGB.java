@@ -40,18 +40,13 @@ public class PanelRGB extends ColorSpacePanel {
         this.blue.setValue(blue);
     }
 
-    public void set(int red,int green,int blue){
-        setRed(red);
-        setGreen(green);
-        setBlue(blue);
-    }
-
     @Override
     public int[] getColorSpaceData() {
         return new int[]{
                         red.getValue(),
                         green.getValue(),
-                        blue.getValue()
+                        blue.getValue(),
+                        -1
                 };
     }
 
@@ -62,6 +57,13 @@ public class PanelRGB extends ColorSpacePanel {
                 green.getSlider(),
                 blue.getSlider()
         };
+    }
+
+    @Override
+    public void set(int[] colorSpaceData) {
+        setRed(colorSpaceData[0]);
+        setGreen(colorSpaceData[1]);
+        setBlue(colorSpaceData[2]);
     }
 
 }
