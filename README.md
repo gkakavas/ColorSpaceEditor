@@ -44,7 +44,7 @@ Use an IDE like IntelliJ IDEA, Eclipse, or any text editor of your choice.
 
 - **Load** any image file and convert it to a supported color space using the color model chooser.
 
-- **Save** the modified image by pressing the save button. A tag of the color space is added to the file name so that the application can read the file again in the converted color model.
+- **Save** the modified image by pressing the save button. A tag of the color space is added to the file name so that the application can read the file again in the converted color model. Along with the converted file also get exported the components of the specific color model. For example an export to a rgb image will also export the distinct channels represented on gray-scale. 
 
 - **Capture** an image using the image capture button and process it as any other loaded picture.
 
